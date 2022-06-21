@@ -13,8 +13,7 @@ const initApp = () => {
   const removeDot = (e) => {
     const elId = e.target.dataset.id;
     coords = coords.filter(({ id }) => id !== parseInt(elId));
-    console.log('coords ==>', coords);
-    console.log('elId ==>', elId);
+
     gerateHotSpot();
   };
 
@@ -66,8 +65,8 @@ const initApp = () => {
     const pxPosX = Math.abs(xPos - rect.left);
     const pxPosY = Math.abs(yPos - rect.top);
 
-    const percentageX = ((pxPosX / rect.width) * 100).toFixed(3);
-    const percentageY = ((pxPosY / rect.height) * 100).toFixed(3);
+    const percentageX = ((pxPosX / rect.width) * 100).toFixed(2);
+    const percentageY = ((pxPosY / rect.height) * 100).toFixed(2);
 
     const coord = { id: dotId, x: percentageX, y: percentageY };
     coords.push(coord);
