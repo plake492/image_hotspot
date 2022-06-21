@@ -1,0 +1,31 @@
+.file-input {
+  color: rgba(0, 0, 0, 0);
+  display: inline-block;
+  width: 146px;
+
+  &::-webkit-file-upload-button {
+    visibility: hidden;
+    opacity: 0;
+  }
+  &::before {
+    content: 'Select some files';
+    display: inline-block;
+    background: $light-1;
+    border: 1px solid $black;
+    border-radius: 3px;
+    padding: 1rem 1.125rem;
+    outline: none;
+    white-space: nowrap;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 10pt;
+    color: $black;
+    transition: background-color 200ms ease-in-out;
+  }
+  &:hover::before {
+    background: lighten($light-1, 5%);
+  }
+  &:active::before {
+    background: darken($light-1, 5%);
+  }
+}

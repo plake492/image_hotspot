@@ -1,11 +1,14 @@
 const initApp = () => {
   const imgWrapper = document.querySelector('.img-container');
   const dragArea = document.querySelector('.droparea');
+  const fileInput = document.querySelector('.file-input');
   const overlay = document.querySelector('.overlay');
   const readout = document.querySelector('.readout');
 
   let coords = [];
   let dotId = 1;
+
+  let imagePresent = false;
 
   const removeDot = (e) => {
     const elId = e.target.dataset.id;
@@ -35,14 +38,14 @@ const initApp = () => {
       titleEl.textContent = 'Dot #' + (i + 1);
 
       const xEl = document.createElement('div');
-      xEl.textContent = 'X Percentage: ' + x;
+      xEl.innerHTML = `X Percentage: <span class="highlight">${x}</span>`;
 
       const yEl = document.createElement('div');
-      yEl.textContent = 'Y Percentage: ' + y;
+      yEl.innerHTML = `Y Percentage: <span  class="highlight">${y}</span>`;
 
       const closeEl = document.createElement('button');
       closeEl.classList.add('readout__remove');
-      closeEl.textContent = 'X';
+      closeEl.innerHTML = '&#215;';
       closeEl.dataset.id = id;
       closeEl.addEventListener('click', removeDot);
 
@@ -75,24 +78,45 @@ const initApp = () => {
 
   const generatePreveiwImage = (src) => {
     const imgEl = document.createElement('img');
+    imgEl.classList.add('generated-img');
     imgEl.src = src;
     imgWrapper.appendChild(imgEl);
   };
 
-  const handleDrop = (e) => {
-    const dt = e.dataTransfer;
-    const [file] = dt.files;
-    const src = URL.createObjectURL(file);
+  const updateImage = (src) => {
+    const targetImgEl = document.querySelector('.generated-img');
+    targetImgEl.src = src;
+    coords = [];
+    gerateHotSpot();
+  };
 
-    localStorage.setItem('src', src);
+  const handleDrop = (e, type) => {
+    let src;
+
+    if (type === 'drop') {
+      const dt = e.target?.files || e.dataTransfer;
+      console.log('dt ==>', dt);
+      const [file] = dt.files;
+      src = URL.createObjectURL(file);
+    } else {
+      const [file] = e.target.files;
+      if (file) {
+        src = URL.createObjectURL(file);
+      }
+    }
+
+    if (imagePresent) {
+      return updateImage(src);
+    }
     generatePreveiwImage(src);
+    imagePresent = true;
   };
 
   const activeState = (e) => {
-    e.target.style.borderColor = 'green';
+    e.target.style.backgroundColor = '#a4a4a4';
   };
   const inactiveState = (e) => {
-    e.target.style.borderColor = '#020202';
+    e.target.removeAttribute('style');
   };
   const prevents = (e) => e.preventDefault();
 
@@ -110,7 +134,8 @@ const initApp = () => {
     dragArea.addEventListener(event, inactiveState)
   );
 
-  dragArea.addEventListener('drop', handleDrop);
+  dragArea.addEventListener('drop', (e) => handleDrop(e, 'drop'));
+  fileInput.addEventListener('change', (e) => handleDrop(e, 'upload'));
 };
 
 document.addEventListener('DOMContentLoaded', initApp);

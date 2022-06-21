@@ -5,16 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Hotspot</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./assets/css/styles/index.css" />
   </head>
   <body>
-    <section class="droparea">
-      <p>Drag Image here</p>
-    </section>
-    <div class="img-container">
-      <div class="overlay"></div>
+    <nav>
+      <h5>
+        Add an image file, then click anywhere on the image to get the x and y
+        coordinates as left and top percentages
+      </h5>
+    </nav>
+    <div class="container">
+      <section class="droparea">
+        <p>Drag Image here</p>
+        <small>Or</small>
+        <input
+          class="file-input"
+          type="file"
+          accept="image/png, image/gif, image/jpeg, image/jpeg"
+        />
+      </section>
     </div>
-    <section class="readout"></section>
-    <script src="./app.js"></script>
+    <main class="container">
+      <div class="left">
+        <section class="img-container">
+          <div class="overlay"></div>
+        </section>
+      </div>
+      <div class="right">
+        <section class="readout"></section>
+      </div>
+    </main>
+    <script src="./assets/js/app.js"></script>
   </body>
 </html>
